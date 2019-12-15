@@ -6,6 +6,8 @@ Vamos construir um aplicativo utilizando a [API TV Maze](https://www.tvmaze.com/
 
 ![Protótipo](./imagens/telas.png)
 
+---
+
 ## 1. Como será o aplicativo?
 
 Antes de começar a escrever código, é importante entender os comportamentos associados a cada tela.
@@ -46,6 +48,8 @@ Quando o usuário clicar no botão para favoritar a série, os dados deverão se
 
 Acima da imagem da série, deverá ter um botão de voltar que levará para a tela anterior.
 
+---
+
 ## 2. Instalando as dependências necessárias
 
 Chegou a hora de começar o projeto! Para isso, visite a página do [React Native](https://facebook.github.io/react-native/) e clique em **Get started**.
@@ -63,6 +67,8 @@ Em seguida, escolha a melhor opção que se encaixa com o seu perfil. No meu cas
 Você só poderá escolher *Target OS*  como **iOS** se estiver utilizando um Mac. Para **Windows** e **Linux**, você deverá escolher obrigatoriamente **Android**.
 
 Após selecionar as opções de acordo com seu sistema operacional, siga as instruções para a instalação das dependências necessárias para utilizar o React Native.
+
+---
 
 ## 3. Vamos começar!
 
@@ -90,8 +96,41 @@ Após algum tempo - e na primeira vez que executamos este comando pode realmente
 
 ![Simuladores](./imagens/devices.png)
 
+**Importante:** Note que o texto padrão do projeto na primeira execução (sem alterações) menciona opções para você visualizar suas alterações (reload) e também para debugar. Isso quer dizer que você pode alterar o código e ver as alterações e fazer debug em tempo real.
 
-## 4. Entendendo a API
+Para você modificar o projeto, você deverá utilizar um editor de código de sua preferência:
+
+* [Atom](https://atom.io/)
+* [Sublime](https://www.sublimetext.com/)
+* [Visual Studio Code](https://code.visualstudio.com/)
+
+Ao abrir o projeto no editor de código de sua escolha, você verá esta estrutura de pastas e arquivos:
+
+![Estrutura de pastas e arquivos](./imagens/vscode_lateral.png)
+
+**Obs.:** Essa é a barra lateral do meu Visual Studio Code. Estou utilizando um tema diferente do padrão e também tenho uma extensão que modifica as imagens dos ícones associados a cada arquivo ou pasta. O nome que eu dei para o meu projeto é *FavTVShow*.
+
+O que é importante saber aqui:
+
+* As pastas *android* e *ios* contêm o código nativo gerado. Você pode rodar seu aplicativo no Android Studio ou no Xcode abrindo essas pastas em cada IDE respectivamente. Essas pastas são importantes para gerar o release do seu aplicativo.
+
+* A pasta *node_modules* contém todas as dependências do projeto instaladas pelo npm.
+
+* O aplicativo pode ser inicialmente editado através do arquivo *App.js*.
+
+* O arquivo *index.js* busca e registra o componente global do nosso aplicativo, ou seja, o primeiro componente a ser carregado. Ele importa o conteúdo do arquivo *App.js* e renderiza na tela.
+
+* O arquivo package.json contém todos os dados das dependências e também de scripts relacionados ao seu projeto.
+
+---
+
+## 4. Editando o App.js
+
+
+
+---
+
+## 5. Entendendo a API
 
 Para que possamos popular nosso aplicativo com dados, vamos utilizar a [API TV Maze](https://www.tvmaze.com/api) que é uma API REST aberta (não precisamos fazer autenticação), gratuita e que retorna os dados no formato JSON.
 
