@@ -6,11 +6,11 @@ Vamos construir um aplicativo utilizando a [API TV Maze](https://www.tvmaze.com/
 
 ![Protótipo](./imagens/telas.png)
 
-## Como será o aplicativo?
+## 1. Como será o aplicativo?
 
 Antes de começar a escrever código, é importante entender os comportamentos associados a cada tela.
 
-### Tela inicial
+### 1.1. Tela inicial
 
 Esta é a tela que o usuário visualizará ao iniciar o aplicativo.
 
@@ -32,7 +32,7 @@ Se não houver busca em andamento, não exibir nada na tela.
 
 Se não houver nenhuma série favoritada, exibir a mensagem "Você ainda não tem séries favoritas".
 
-### Tela de detalhes da série
+### 1.2. Tela de detalhes da série
 
 Quando o usuário clicar em uma série, seja nos resultados da busca ou nas favoritadas, deverá ser levado para a seguinte tela:
 
@@ -45,3 +45,188 @@ Ao lado do nome e dos gêneros, deverá ter uma botão para que o usuário possa
 Quando o usuário clicar no botão para favoritar a série, os dados deverão ser salvos no armazenamento global interno do aplicativo (AsyncStorage) e deverá existir algum retorno visual para o usuário.
 
 Acima da imagem da série, deverá ter um botão de voltar que levará para a tela anterior.
+
+## 2. Instalando as dependências necessárias
+
+Chegou a hora de começar o projeto! Para isso, visite a página do [React Native](https://facebook.github.io/react-native/) e clique em **Get started**.
+
+![Página do React Native](./imagens/react_native_home.png)
+
+Na página **Getting Started**, você encontrará todas as informações necessárias para começar com o React Native. Para este tutorial, sugerimos que você escolha a opção **React Native CLI Quickstart**.
+
+![Página Getting Started](./imagens/getting_started_selecao.png)
+
+Em seguida, escolha a melhor opção que se encaixa com o seu perfil. No meu caso, vou desenvolver utilizando um Mac, então em *Development OS* escolhi **macOS** e como testarei utilizando o iPhone, em *Target OS*, escolhi o target como **iOS**, mas poderia ter escolhido **Android**.
+
+![Página Getting Started - Opção](./imagens/getting_started_config.png)
+
+Você só poderá escolher *Target OS*  como **iOS** se estiver utilizando um Mac. Para **Windows** e **Linux**, você deverá escolher obrigatoriamente **Android**.
+
+Após selecionar as opções de acordo com seu sistema operacional, siga as instruções para a instalação das dependências necessárias para utilizar o React Native.
+
+## 3. Vamos começar!
+
+Após concluir a instalação de todas as dependências conforme o passo-a-passo do site do React Native, você poderá inicializar seu projeto com o seguinte comando:
+
+```sh
+npx react-native init NomeDoProjeto
+```
+
+A criação do projeto pode levar alguns minutos, não se preocupe e acompanhe os logs pelo terminal :)
+
+Quando o processo estiver concluído, você poderá rodar seu projeto com os seguintes comandos:
+
+```sh
+cd NomeDoProjeto
+npx react-native run-ios
+```
+Caso você esteja utilizando o macOS. Ou, caso você esteja utilizando o Windows ou o Linux:
+
+```sh
+cd NomeDoProjeto
+npx react-native run-android
+```
+Após algum tempo - e na primeira vez que executamos este comando pode realmente levar um bom tempo - você verá algo parecido com isso (dependendo do *Target OS*):
+
+![Simuladores](./imagens/devices.png)
+
+
+## 4. Entendendo a API
+
+Para que possamos popular nosso aplicativo com dados, vamos utilizar a [API TV Maze](https://www.tvmaze.com/api) que é uma API REST aberta (não precisamos fazer autenticação), gratuita e que retorna os dados no formato JSON.
+
+Vamos analisar um exemplo de busca utilizando esta API. Se quisermos realizar uma busca com a palavra **anatomy**, utilizaremos o seguinte endpoint:
+
+```
+[GET] http://api.tvmaze.com/search/shows?q=anatomy
+```
+
+Como resultado, teremos o JSON abaixo (apenas um trecho está sendo mostrado) contendo todas as entradas que tenham **anatomy** ou algo parecido:
+
+```json
+[
+  {
+    "score": 20.919525,
+    "show": {
+      "id": 67,
+      "url": "http://www.tvmaze.com/shows/67/greys-anatomy",
+      "name": "Grey's Anatomy",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Romance",
+        "Medical"
+      ],
+      "status": "Running",
+      "runtime": 60,
+      "premiered": "2005-03-27",
+      "officialSite": "http://abc.go.com/shows/greys-anatomy/",
+      "schedule": {
+        "time": "21:00",
+        "days": [
+          "Thursday"
+        ]
+      },
+      "rating": {
+        "average": 8.3
+      },
+      "weight": 99,
+      "network": {
+        "id": 3,
+        "name": "ABC",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        }
+      },
+      "webChannel": null,
+      "externals": {
+        "tvrage": 3741,
+        "thetvdb": 73762,
+        "imdb": "tt0413573"
+      },
+      "image": {
+        "medium": "http://static.tvmaze.com/uploads/images/medium_portrait/211/529884.jpg",
+        "original": "http://static.tvmaze.com/uploads/images/original_untouched/211/529884.jpg"
+      },
+      "summary": "<p>The doctors of Grey Sloan Memorial Hospital deal with life-or-death consequences on a daily basis -- it's in one another that they find comfort, friendship and, at times, more than friendship. Together they're discovering that neither medicine nor relationships can be defined in black and white. Real life only comes in shades of grey.</p>",
+      "updated": 1576320037,
+      "_links": {
+        "self": {
+          "href": "http://api.tvmaze.com/shows/67"
+        },
+        "previousepisode": {
+          "href": "http://api.tvmaze.com/episodes/1749376"
+        },
+        "nextepisode": {
+          "href": "http://api.tvmaze.com/episodes/1760391"
+        }
+      }
+    }
+  },
+  {
+    "score": 15.932307,
+    "show": {
+      "id": 34388,
+      "url": "http://www.tvmaze.com/shows/34388/greys-anatomy-b-team",
+      "name": "Grey's Anatomy: B-Team",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Romance",
+        "Medical"
+      ],
+      "status": "Ended",
+      "runtime": 3,
+      "premiered": "2018-01-11",
+      "officialSite": "http://abc.go.com/shows/greys-anatomy-b-team",
+      "schedule": {
+        "time": "",
+        "days": [
+          "Thursday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 80,
+      "network": null,
+      "webChannel": {
+        "id": 95,
+        "name": "ABC.com",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        }
+      },
+      "externals": {
+        "tvrage": null,
+        "thetvdb": null,
+        "imdb": null
+      },
+      "image": {
+        "medium": "http://static.tvmaze.com/uploads/images/medium_portrait/142/355662.jpg",
+        "original": "http://static.tvmaze.com/uploads/images/original_untouched/142/355662.jpg"
+      },
+      "summary": "<p>A fresh crop of interns face their first day at Grey Sloan Memorial Hospital. Can these new surgeons survive the pressures of high-stakes medicine, intimidating attendings, and cut throat competition?</p>",
+      "updated": 1526845476,
+      "_links": {
+        "self": {
+          "href": "http://api.tvmaze.com/shows/34388"
+        },
+        "previousepisode": {
+          "href": "http://api.tvmaze.com/episodes/1390266"
+        }
+      }
+    }
+  }
+]
+```
+
+Você pode visualizar uma versão mais amigável do conteúdo deste JSON utilizando o [JSON Editor Online](https://jsoneditoronline.org/). Já deixei salvo para que você possa visualizar ele todo! Clique [aqui](https://jsoneditoronline.org/?id=df5f255d286b405aa837b53f328b1438) ;)
+
+No JSON Editor Online ficou fácil de ver que se trata de um array com 9 objetos e cada objeto é uma série.
