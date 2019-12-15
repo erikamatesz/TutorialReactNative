@@ -38,9 +38,9 @@ Se não houver nenhuma série favoritada, exibir a mensagem "Você ainda não te
 
 ### 1.2. Tela de detalhes da série
 
-<img src="./imagens/tela_detalhes.png" width="30%" title="Tela inicial" style="float: left; padding-right: 30px;">
-
 Quando o usuário clicar em uma série, seja nos resultados da busca ou nas favoritadas, deverá ser levado para esta tela.
+
+<img src="./imagens/tela_detalhes.png" width="30%" title="Tela inicial" style="float: left; padding-right: 30px;">
 
 Esta tela deverá mostrar uma imagem associada à série, o nome, os gêneros e o sumário.
 
@@ -110,7 +110,7 @@ Para você modificar o projeto, você deverá utilizar um editor de código de s
 
 Ao abrir o projeto no editor de código de sua escolha, você verá esta estrutura de pastas e arquivos:
 
-<div align="center"><img src="./imagens/vscode_lateral.png" width="40%" title="Estrutura de Pastas e Arquivos"></div>
+<div align="center"><img src="./imagens/vscode_lateral.png" width="30%" title="Estrutura de Pastas e Arquivos"></div>
 
 **Obs.:** Essa é a barra lateral do meu Visual Studio Code. Estou utilizando um tema diferente do padrão e também tenho uma extensão que modifica as imagens dos ícones associados a cada arquivo ou pasta. O nome que eu dei para o meu projeto é *FavTVShow*.
 
@@ -128,9 +128,44 @@ O que é importante saber aqui:
 
 ---
 
-## 4. Editando o App.js
+## 4. Escrevendo o nosso App.js
 
+Apague todo o conteúdo do arquivo App.js e substitua por:
 
+```js
+import React, {Component} from 'react'; // 1
+import {Text, View, StyleSheet} from 'react-native'; // 2
+
+// 3
+export default class App extends Component {
+  render() {
+    return (
+      // 4
+      <View style={styles.hello}>
+        <Text>Hello, world!</Text>
+      </View>
+    );
+  }
+}
+
+// 5
+const styles = StyleSheet.create({
+  hello: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+```
+
+1. Importamos o React e também a classe Component para ser utilizada diretamente. Se não importássemos Component aqui, em **3** teríamos que usar *React.Component* invés de apenas *Component*.
+2. Importamos as classes Text, View e StyleSheet do React Native para que possamos utilizá-las na renderização de conteúdo na tela.
+3. Precisamos exportar nossa classe *App* aqui como um componente. Lembra do *index.js*? Então, exportamos App como um componente que será lido e registrado pelo *index.js*. Nossa classe vai renderizar o que estiver dentro do *return*.
+4. Aqui temos um componente *View* que recebe a customização através de um estilo. Dentro desse componente, temos um componente *Text* que recebe o conteúdo 'Hello, world!' e não possui nenhuma customização.
+5. Declaramos uma constante *styles* que receberá um objeto com os estilos que queremos utilizar. Por enquanto temos somente um, o *hello*, que utilizamos na customização da *View*.
+
+Quando você remove o conteúdo de App.js, coloca este conteúdo novo e salva o arquivo, se você estiver com o simulador rodando, ele recarrega automaticamente a visualização.
 
 ---
 
