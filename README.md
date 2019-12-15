@@ -4,7 +4,9 @@ O objetivo deste tutorial é guiar você nos primeiros passos com o React Native
 
 Vamos construir um aplicativo utilizando a [API TV Maze](https://www.tvmaze.com/api) e seguindo o protótipo abaixo:
 
-![Protótipo](./imagens/telas.png)
+<div align="center">
+<img src="./imagens/telas.png" width="70%" title="Protótipo">
+</div>
 
 ---
 
@@ -16,7 +18,7 @@ Antes de começar a escrever código, é importante entender os comportamentos a
 
 Esta é a tela que o usuário visualizará ao iniciar o aplicativo.
 
-![Tela inicial](./imagens/tela_inicial.png)
+<img src="./imagens/tela_inicial.png" width="30%" title="Tela inicial" style="float: left; padding-right: 30px;">
 
 Ela deverá ter uma barra de busca e, do lado direito da barra, um botão.
 
@@ -36,17 +38,19 @@ Se não houver nenhuma série favoritada, exibir a mensagem "Você ainda não te
 
 ### 1.2. Tela de detalhes da série
 
-Quando o usuário clicar em uma série, seja nos resultados da busca ou nas favoritadas, deverá ser levado para a seguinte tela:
+<img src="./imagens/tela_detalhes.png" width="30%" title="Tela inicial" style="float: left; padding-right: 30px;">
 
-![Tela de detalhes](./imagens/tela_detalhes.png)
+Quando o usuário clicar em uma série, seja nos resultados da busca ou nas favoritadas, deverá ser levado para esta tela.
 
 Esta tela deverá mostrar uma imagem associada à série, o nome, os gêneros e o sumário.
 
-Ao lado do nome e dos gêneros, deverá ter uma botão para que o usuário possa favoritar a série. 
+Ao lado do nome e dos gêneros, deverá ter uma botão para que o usuário possa favoritar a série.
 
-Quando o usuário clicar no botão para favoritar a série, os dados deverão ser salvos no armazenamento global interno do aplicativo (AsyncStorage) e deverá existir algum retorno visual para o usuário.
+Quando o usuário clicar no botão para favoritar a série, os dados deverão ser salvos no armazenamento global interno do aplicativo (AsyncStorage) e deverá existir algum retorno visual para o usuário que poderá ser um "toast" ou similar.
 
 Acima da imagem da série, deverá ter um botão de voltar que levará para a tela anterior.
+
+O usuário deverá poder rolar a tela, pois o conteúdo do sumário pode ser maior do que o tamanho da tela do aparelho.
 
 ---
 
@@ -54,15 +58,15 @@ Acima da imagem da série, deverá ter um botão de voltar que levará para a te
 
 Chegou a hora de começar o projeto! Para isso, visite a página do [React Native](https://facebook.github.io/react-native/) e clique em **Get started**.
 
-![Página do React Native](./imagens/react_native_home.png)
+<div align="center"><img src="./imagens/react_native_home.png" width="80%" title="Página do React Native"></div>
 
 Na página **Getting Started**, você encontrará todas as informações necessárias para começar com o React Native. Para este tutorial, sugerimos que você escolha a opção **React Native CLI Quickstart**.
 
-![Página Getting Started](./imagens/getting_started_selecao.png)
+<div align="center"><img src="./imagens/getting_started_selecao.png" width="80%" title="Página Getting Started"></div>
 
 Em seguida, escolha a melhor opção que se encaixa com o seu perfil. No meu caso, vou desenvolver utilizando um Mac, então em *Development OS* escolhi **macOS** e como testarei utilizando o iPhone, em *Target OS*, escolhi o target como **iOS**, mas poderia ter escolhido **Android**.
 
-![Página Getting Started - Opção](./imagens/getting_started_config.png)
+<div align="center"><img src="./imagens/getting_started_config.png" width="60%" title="Getting Started - Opção"></div>
 
 Você só poderá escolher *Target OS*  como **iOS** se estiver utilizando um Mac. Para **Windows** e **Linux**, você deverá escolher obrigatoriamente **Android**.
 
@@ -94,7 +98,7 @@ npx react-native run-android
 ```
 Após algum tempo - e na primeira vez que executamos este comando pode realmente levar um bom tempo - você verá algo parecido com isso (dependendo do *Target OS*):
 
-![Simuladores](./imagens/devices.png)
+<div align="center"><img src="./imagens/devices.png" width="60%" title="Simuladores"></div>
 
 **Importante:** Note que o texto padrão do projeto na primeira execução (sem alterações) menciona opções para você visualizar suas alterações (reload) e também para debugar. Isso quer dizer que você pode alterar o código e ver as alterações e fazer debug em tempo real.
 
@@ -106,7 +110,7 @@ Para você modificar o projeto, você deverá utilizar um editor de código de s
 
 Ao abrir o projeto no editor de código de sua escolha, você verá esta estrutura de pastas e arquivos:
 
-![Estrutura de pastas e arquivos](./imagens/vscode_lateral.png)
+<div align="center"><img src="./imagens/vscode_lateral.png" width="40%" title="Estrutura de Pastas e Arquivos"></div>
 
 **Obs.:** Essa é a barra lateral do meu Visual Studio Code. Estou utilizando um tema diferente do padrão e também tenho uma extensão que modifica as imagens dos ícones associados a cada arquivo ou pasta. O nome que eu dei para o meu projeto é *FavTVShow*.
 
