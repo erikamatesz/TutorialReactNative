@@ -26,7 +26,7 @@ A barra de busca deverá ter um placeholder. Ao digitar uma palavra para ser bus
 
 Encontrando resultados, deverão ser exibidos abaixo da barra de busca e abaixo do título "Resultado da Busca", um por linha. Caso não obtenha nenhum resultado, deverá exibir a mensagem "Nenhum resultado encontrado".
 
-Os resultados deverão ser exibidos como "cards" contendo a imagem, o nome da série e os gêneros atribuídos a ela.
+Os resultados deverão ser exibidos como "cards" contendo a imagem, o nome da série e os gêneros atribuídos a ela (ver seção 1.3).
 
 Quando o usuário selecionar um dos resultados, deverá ser levado a uma outra tela que mostrará as informações completas da série. Descreveremos essa tela em breve.
 
@@ -46,11 +46,23 @@ Esta tela deverá mostrar uma imagem associada à série, o nome, os gêneros e 
 
 Ao lado do nome e dos gêneros, deverá ter uma botão para que o usuário possa favoritar a série.
 
-Quando o usuário clicar no botão para favoritar a série, os dados deverão ser salvos no armazenamento global interno do aplicativo (AsyncStorage) e deverá existir algum retorno visual para o usuário que poderá ser um "toast" ou similar.
+Quando o usuário clicar no botão para favoritar a série, os dados deverão ser salvos no armazenamento global interno do aplicativo ([AsyncStorage](https://facebook.github.io/react-native/docs/asyncstorage)) e deverá existir algum retorno visual para o usuário que poderá ser um "toast" ou similar.
 
 Acima da imagem da série, deverá ter um botão de voltar que levará para a tela anterior.
 
 O usuário deverá poder rolar a tela, pois o conteúdo do sumário pode ser maior do que o tamanho da tela do aparelho.
+
+### 1.3. Componente para exibir as séries
+
+O usuário verá uma lista de séries quando fizer uma busca e obtiver pelo menos um resultado ou quando acessar suas séries favoritadas. 
+
+Para esta finalidade, deveremos construir um componente tipo *card* conforme imagem abaixo:
+
+<div align="center">
+<img src="./imagens/card_serie.png" width="50%" title="Card de série">
+</div>
+
+Os cards deverão ser clicáveis e exibidos numa [Flatlist](https://facebook.github.io/react-native/docs/flatlist).
 
 ---
 
@@ -469,3 +481,65 @@ Como resultado, teremos o JSON abaixo (apenas um trecho está sendo mostrado) co
 Você pode visualizar uma versão mais amigável do conteúdo deste JSON utilizando o [JSON Editor Online](https://jsoneditoronline.org/). Já deixei salvo para que você possa visualizar ele todo! Clique [aqui](https://jsoneditoronline.org/?id=df5f255d286b405aa837b53f328b1438) ;)
 
 No JSON Editor Online ficou fácil de ver que se trata de um array com 9 objetos e cada objeto é uma série.
+
+De acordo com o protótipo e com o que implementamos até aqui:
+* Sabemos que é possível pegar um texto digitado no *TextInput*;
+* Temos um endpoint para o qual podemos passar um texto e ele nos retornará o resultado da busca por aquele termo.
+
+Vamos colocar isso em prática na próxima seção utilizando o [Axios](https://github.com/qiangmao/axios).
+
+---
+## 7. Nosso primeiro request
+
+Precisamos instalar a biblioteca Axios no projeto. Faremos isso digitando o seguinte comando no terminal:
+
+```sh
+$ npm install axios
+```
+Depois disso, vamos criar uma pasta **service** e um arquivo **api.js** dentro dela. Vamos colocar o seguinte código no arquivo:
+
+```js
+import axios from 'axios'; // 1
+
+// 2
+const api = axios.create({
+  baseURL: 'http://api.tvmaze.com/',
+});
+
+export default api;
+```
+1. Fazemos o import da biblioteca.
+2. Instanciamos o axios utilizando este método para definir a URL da API.
+
+No **App.js**, vamos importar o arquivo **api.js**:
+
+```js
+import api from './service/api';
+```
+
+E vamos modificar a função *submitSearch()* para ficar assim:
+
+```js
+  submitSearch = async () => { // 1
+    if (this.state.searchText != '') { // 2
+      try { // 3
+        const response = await api.get('/search/shows', { // 4
+          params: { q: this.state.searchText } // 5
+        });
+        alert(JSON.stringify(response));
+      } catch(error) { 
+        alert(JSON.stringify(error));
+      }
+    }
+  }
+```
+
+1. Transformamos essa função em assíncrona.
+2. Fazemos uma verificação aqui para que a busca só ocorra se houver conteúdo no campo de texto.
+3. Vamos usar o try/catch para que possamos controlar melhor o fluxo em caso de erro.
+4. Utilizamos a expressão *await* para pausar a execução da função assíncrona até termos uma promise.
+5. Lembra do início da seção 6? Veja a URL que utilizamos como exemplo lá. Aqui, precisamos passar o atributo *params* para fazer o mesmo efeito do **q** na URL.
+
+Os alerts dentro do bloco *try* e dentro do bloco *catch* serão úteis para visualizarmos as respostas obtidas na requisição. Em outro momento, utilizaremos essas respostas de outra maneira :)
+
+Veja mais sobre funções assíncronas [aqui](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/funcoes_assincronas) e sobre promieses [aqui](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
