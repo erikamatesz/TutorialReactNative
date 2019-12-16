@@ -167,6 +167,8 @@ const styles = StyleSheet.create({
 
 Quando você remove o conteúdo de App.js, coloca este conteúdo novo e salva o arquivo, se você estiver com o simulador rodando, ele recarrega automaticamente a visualização.
 
+Não deixe de ler a documentação oficial sobre os componentes [Text](https://facebook.github.io/react-native/docs/text) e [View](https://facebook.github.io/react-native/docs/view) e da abstração [StyleSheet](https://facebook.github.io/react-native/docs/stylesheet). 
+
 Vamos modificar um pouco o estilo do texto no componente *Text*. Primeiro, reescreva a linha do componente *Text* de modo que ela fique assim:
 
 ```html
@@ -197,7 +199,7 @@ Precisamos começar a dar uma cara para o nosso projeto conforme o protótipo. F
 
 Como podemos adicionar os elementos necessários da tela inicial? Um deles é uma barra de busca. Existem bibliotecas com esse componente pronto, mas para que possamos aprender como fazer, não iremos utilizá-las.
 
-Vamos adicionar o componente *TextInput* à nossa segunda linha de *import*:
+Vamos adicionar o componente *TextInput* à nossa segunda linha de *import*. Veja a documentação deste componente [aqui](https://facebook.github.io/react-native/docs/textinput).
 
 ```js
 import {Text, View, StyleSheet, TextInput} from 'react-native';
@@ -261,9 +263,70 @@ Faça as alterações e salve o arquivo. Agora veja a explicação para cada ite
 
 * O componente *View* que engloba todos os outros componentes (estilo de nome *screen*) possui flex igual a 1. Isso faz com que ele tome a tela toda, uma vez que ele engloba todos os outros. Ele possui flexDirection igual a *column* porque queremos que os componentes dentro dele se organizem verticalmente.
 
-* Temos o componente *View* com estilo *search* que fica em cima e o *View* com estilo *results* que fica em baixo. Eles estão dentro do componente *View* com estilo *screen* e se organizam verticalmente. Eles têm que dividir o mesmo espaço. Fazemos isso utilizando o flex. O de cima tem flex 1 e o de baixo 4. Isso quer dizer que temos 5 partes proporcionais (1+4), o que tem flex igual a 1 ocupa 1/5 e o que tem flex igual a 4 ocupa 4/5.
+* Temos o componente *View* com estilo *search* que fica em cima e o *View* com estilo *results* que fica em baixo. Eles estão dentro do componente *View* com estilo *screen* e se organizam verticalmente. Eles têm que dividir o mesmo espaço. Fazemos isso utilizando o flex. O de cima tem flex 1 e o de baixo 4. Isso quer dizer que temos 5 partes proporcionais (1+4), o que tem flex igual a 1 ocupa 1/5 e o que tem flex igual a 4 ocupa 4/5. **Importante:** Veja a documentação do React Native para aprender mais sobre [Flexbox](https://facebook.github.io/react-native/docs/flexbox) :)
 
 * Olhando ainda para o componente *View* com estilo *search*, dentro dele colocamos o componente *TextView* que está customizado com o estilo *input*. Com ele, pudemos definir sua altura (height), largura (width), distância da margem superior da tela (marginTop), cor da borda (borderColor), espessura da borda (borderWidth), preenchimento em volta (padding) e o tamanho da fonte do campo (fontSize). 
+
+No simulador, se você clicar no *TextInput*, o teclado aparece automaticamente. Você pode digitar algo e clicar em "return"(no caso do iOS). Por enquanto, nada vai acontecer porque ainda precisamos implementar o comportamento.
+
+Vamos adicionar uma variável chamada *state* antes da função *render()* que receberá o texto digitado no *TextInput*.
+
+```js
+  state = {
+    searchText: '',
+  }
+```
+
+Também vamos alterar o *TextInput* para ter um placeholder e para que ele salve na variável *state* o texto digitado. Ele ficará assim:
+
+```js
+  <TextInput
+    placeholder={'Procure uma série'}
+    style={styles.input}
+    onChangeText={(text) => this.setState({ searchText: text })}
+  />
+```
+
+Note o método *onChangeText* do componente. Ele recebe o valor de *text* e salva (this.setState) em *searchText*. Podemos verificar isso em tempo real fazendo uma pequena alteração em outro componente.
+
+Onde temos:
+
+```html
+<Text>Os resultados aparecerão aqui</Text>
+```
+Troque por:
+
+```html
+<Text>{this.state.searchText}</Text>
+```
+Salve e faça o teste de digitar algo no *TextInput* :)
+
+Alterando mais um pouquinho nosso *TextInput*, vamos utilizar o método *onSubmitEditing* para que a busca ocorra quando o usuário pressionar a tecla *return* (ou equivalente no Android). Por enquanto ainda não faremos nenhuma requisição à API, mas vamos deixar as coisas encaminhadas!
+
+Nosso *TextInput* ficará assim:
+
+```js
+  <TextInput
+    placeholder={'Procure uma série'}
+    style={styles.input}
+    onChangeText={(text) => this.setState({ searchText: text })}
+    onSubmitEditing={() => this.submitSearch()}
+  />
+```
+
+Precisamos adicionar a função *submitSearch()*, isso pode ser feito logo abaixo de *state*. Ficará assim:
+
+```js
+  state = {
+    searchText: '',
+  }
+
+  submitSearch() { 
+    alert('Buscar: ' + this.state.searchText);
+  }
+```
+
+Como não estamos fazendo a requisição ainda, coloquei um *alert* para que você perceba que o conteúdo digitado no campo de texto será utilizado na busca, pois ela ocorrerá dentro da função *submitSearch()*.
 
 --- 
 
