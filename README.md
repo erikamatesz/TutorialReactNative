@@ -62,7 +62,7 @@ Para esta finalidade, deveremos construir um componente tipo *card* conforme ima
 <img src="./imagens/card_serie.png" width="50%" title="Card de série">
 </div>
 
-Os cards deverão ser clicáveis e exibidos numa [Flatlist](https://facebook.github.io/react-native/docs/flatlist).
+Os cards deverão ser clicáveis e exibidos numa [FlatList](https://facebook.github.io/react-native/docs/flatlist).
 
 ---
 
@@ -542,4 +542,69 @@ E vamos modificar a função *submitSearch()* para ficar assim:
 
 Os alerts dentro do bloco *try* e dentro do bloco *catch* serão úteis para visualizarmos as respostas obtidas na requisição. Em outro momento, utilizaremos essas respostas de outra maneira :)
 
-Veja mais sobre funções assíncronas [aqui](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/funcoes_assincronas) e sobre promieses [aqui](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+Veja mais sobre funções assíncronas [aqui](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Statements/funcoes_assincronas) e sobre promises [aqui](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
+--- 
+
+## 8. Fiz um request, obtive dados... E agora?
+
+Vamos começar a implementar a *FlatList* para exibir a lista de resultados da busca. Vamos modificar nosso import para isso:
+
+```js
+import {Text, View, StyleSheet, TextInput, FlatList} from 'react-native';
+```
+
+Em seguida, modificaremos o *state* e a função *submitSearch()* para que fiquem assim:
+
+```js
+  state = {
+    searchText: '',
+    searchResults: null, // 1
+  }
+
+  submitSearch = async () => {
+    if (this.state.searchText != '') { 
+      try {
+        const response = await api.get('/search/shows', {
+          params: { q: this.state.searchText },
+        });
+        this.setState({ searchResults: response.data }); // 2
+      } catch(error) { 
+        alert(JSON.stringify(error));
+      }
+    }
+  }
+```
+
+1. Colocamos o atributo *searchResults* no *state* inicialmente como **null**.
+2. Depois de concluída a requisição, colocamos a resposta no atributo *searchResults*. Note que estamos salvando *response.data* para pegarmos somente o objeto retornado, que é um array com vários shows.
+
+Também temos que modificar o *render()*, inserindo a *FlatList* nele:
+
+```js
+  render() {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.search}>
+          <TextInput
+          placeholder={'Procure uma série'}
+          style={styles.input}
+          onChangeText={(text) => this.setState({ searchText: text })}
+          onSubmitEditing={() => this.submitSearch()}
+         />
+        </View>
+        <View style={styles.results}>
+          <FlatList
+            data={this.state.searchResults}
+            renderItem={({ item }) => <Text>{item.show.name}</Text>}
+            keyExtractor={item => item.show.id}
+          />
+        </View>
+      </View>
+    );
+  }
+```
+Note que estamos renderizando somente o nome da série com o componente *Text*. Porém, vamos criar o nosso componente tipo *card* aqui, conforme seção 1.3.
+
+## 9. Criando um componente
+
