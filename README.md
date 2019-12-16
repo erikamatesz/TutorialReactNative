@@ -191,7 +191,83 @@ Veja o resultado no simulador quando você salvar o arquivo! :)
 
 ---
 
-## 5. Entendendo a API
+## 5. Vamos à primeira tela do projeto!
+
+Precisamos começar a dar uma cara para o nosso projeto conforme o protótipo. Faremos isso da maneira mais simples possível, pelo menos inicialmente.
+
+Como podemos adicionar os elementos necessários da tela inicial? Um deles é uma barra de busca. Existem bibliotecas com esse componente pronto, mas para que possamos aprender como fazer, não iremos utilizá-las.
+
+Vamos adicionar o componente *TextInput* à nossa segunda linha de *import*:
+
+```js
+import {Text, View, StyleSheet, TextInput} from 'react-native';
+```
+Vamos modificar o trecho de código que cuida da renderização da tela para ficar assim:
+
+```js
+export default class App extends Component {
+  render() {
+    return (
+      <View style={styles.screen}>
+        <View style={styles.search}>
+          <TextInput style={styles.input} />
+        </View>
+        <View style={styles.results}>
+          <Text>Os resultados aparecerão aqui</Text>
+        </View>
+      </View>
+    );
+  }
+}
+```
+
+Temos um componente *View* que encapsula todos os elementos da tela e ele recebe o estilo *screen*. 
+
+Dentro deste componente, temos outros dois componentes do tipo *View*: um no topo (fundo branco) que recebe o estilo *search* e outro embaixo (fundo temporariamente cinza claro para visualização) que recebe o estilo *results*. 
+
+Dentro do componente do topo, temos o componente *TextView*. E dentro do componente da parte de baixo da tela temos o componente *Text*.
+
+Agora vamos modificar os estilos para que eles fiquem desta maneira:
+
+```js
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  search: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  input: {
+    marginTop: 55,
+    height: 40,
+    width: 250,
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    padding: 10,
+    fontSize: 20,
+  },
+  results: {
+    flex: 4,
+    backgroundColor: 'lightgray',
+    alignItems: 'center',
+  },
+});
+```
+
+Faça as alterações e salve o arquivo. Agora veja a explicação para cada item:
+
+* O componente *View* que engloba todos os outros componentes (estilo de nome *screen*) possui flex igual a 1. Isso faz com que ele tome a tela toda, uma vez que ele engloba todos os outros. Ele possui flexDirection igual a *column* porque queremos que os componentes dentro dele se organizem verticalmente.
+
+* Temos o componente *View* com estilo *search* que fica em cima e o *View* com estilo *results* que fica em baixo. Eles estão dentro do componente *View* com estilo *screen* e se organizam verticalmente. Eles têm que dividir o mesmo espaço. Fazemos isso utilizando o flex. O de cima tem flex 1 e o de baixo 4. Isso quer dizer que temos 5 partes proporcionais (1+4), o que tem flex igual a 1 ocupa 1/5 e o que tem flex igual a 4 ocupa 4/5.
+
+* Olhando ainda para o componente *View* com estilo *search*, dentro dele colocamos o componente *TextView* que está customizado com o estilo *input*. Com ele, pudemos definir sua altura (height), largura (width), distância da margem superior da tela (marginTop), cor da borda (borderColor), espessura da borda (borderWidth), preenchimento em volta (padding) e o tamanho da fonte do campo (fontSize). 
+
+--- 
+
+## 6. Entendendo a API
 
 Para que possamos popular nosso aplicativo com dados, vamos utilizar a [API TV Maze](https://www.tvmaze.com/api) que é uma API REST aberta (não precisamos fazer autenticação), gratuita e que retorna os dados no formato JSON.
 
