@@ -8,6 +8,16 @@ Vamos construir um aplicativo utilizando a [API TV Maze](https://www.tvmaze.com/
 <img src="./imagens/telas.png" width="70%" title="Protótipo">
 </div>
 
+**Este tutorial está em construção.** Até o momento, ele cobre os seguintes pontos:
+
+* Instalação do React Native e dependências.
+* Inicialização de um projeto.
+* View, Text, TextInput, Image, TouchableOpacity, FlatList, StyleSheet.
+* Utilização do Axios para fazer requests.
+* Como fazer um componente.
+
+Repositório com o código pronto, **também em construção**: https://github.com/erbuen/FavTVShow :)
+  
 ---
 
 ## 1. Como será o aplicativo?
@@ -606,5 +616,84 @@ Também temos que modificar o *render()*, inserindo a *FlatList* nele:
 ```
 Note que estamos renderizando somente o nome da série com o componente *Text*. Porém, vamos criar o nosso componente tipo *card* aqui, conforme seção 1.3.
 
+---
+
 ## 9. Criando um componente
 
+Em um projeto, possivelmente criaremos mais de um componente. Para facilitar a organização, vamos criar uma pasta *components* e todos os componentes que criarmos serão salvos nela.
+
+Dentro dessa pasta, criaremos um arquivo chamado *card.js* com o seguinte conteúdo:
+
+```js
+import React, {Component} from 'react';
+import {Text, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
+
+export default class Card extends Component {
+  render() {
+    return (
+      <TouchableOpacity style={styles.container}>
+        <View style={styles.cardView}>
+          <View>
+          <Image
+            style={styles.image}
+            source={{uri: this.props.info.image == null ? 'https://i.ibb.co/YfZFr7k/noimg.png' : (this.props.info.image.original || this.props.info.image.medium) }}
+          />
+          </View>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={styles.name}>{this.props.info.name || 'Sem nome'}</Text>
+            <Text style={styles.genres}>{this.props.info.genres || 'Sem gênero'}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+  },
+  cardView: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  image: {
+    width: 80,
+    height: 120,
+    resizeMode: 'contain',
+  },
+  name: {
+    fontSize: 20,
+    marginLeft: 10,
+  },
+  genres: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+});
+```
+Note que o nome do componente é *Card* e que utilizei uma imagem para servir de placeholder caso a série não tenha uma URL válida.
+
+Agora vamos importar o nosso novo componente para dentro do arquivo **App.js**:
+
+```js
+import Card from './components/card';
+```
+
+E na *FlatList* vamos substituir o conteúdo atual por:
+
+```js
+<FlatList
+  data={this.state.searchResults}
+  renderItem={({ item }) => <Card info={item.show} />}
+  keyExtractor={item => item.show.id}
+/>
+```
+
+Ao invés de utilizarmos o componente *Text*, agora estamos utilizando o *Card* e passamos **props** para ele através do atributo **info** que recebe o objeto *show*.
+
+Veja no arquivo *card.js* que utilizamos diversas vezes a expressão **this.props.info** para acessar valores que foram passados quando o componente é utilizado. Para pegarmos o nome da série, utilizamos **this.props.info.name**, por exemplo.
+
+--- 
+
+## 10. Em breve...
