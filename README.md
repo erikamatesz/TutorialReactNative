@@ -167,6 +167,28 @@ const styles = StyleSheet.create({
 
 Quando você remove o conteúdo de App.js, coloca este conteúdo novo e salva o arquivo, se você estiver com o simulador rodando, ele recarrega automaticamente a visualização.
 
+Vamos modificar um pouco o estilo do texto no componente *Text*. Primeiro, reescreva a linha do componente *Text* de modo que ela fique assim:
+
+```html
+<Text style={styles.text}>Hello, world!</Text>
+```
+Depois, acrescente o estilo *text* em *styles*. Ficará assim:
+
+```js
+const styles = StyleSheet.create({
+  hello: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: { 
+    fontSize: 30,
+    color: 'blue',
+  },
+});
+```
+Veja o resultado no simulador quando você salvar o arquivo! :)
+
 ---
 
 ## 5. Entendendo a API
